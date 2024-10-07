@@ -2,6 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 import os
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+# Load environment variables from .env file in development
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -15,12 +19,12 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# MySQL Configuration
+# MySQL Configuration using environment variables
 db_config = {
-    'host': 'localhost',
-    'user': 'root',  # Update with your MySQL username
-    'password': '##kc@##hc@98',  # Update with your MySQL password
-    'database': 'promotions_db'
+    'host': os.getenv('MYSQL_HOST', 'localhost'),
+    'user': os.getenv('MYSQL_USER', 'root'),
+    'password': os.getenv('MYSQL_PASSWORD', ''),  # Fetch from environment
+    'database': os.getenv('MYSQL_DB', 'promotions_db')
 }
 
 # Function to add review to a promotion
