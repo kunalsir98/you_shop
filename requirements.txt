@@ -5,3 +5,4 @@ requests
 python-dotenv
 flask-login
 werkzeug>=2.0.0
+vercel
