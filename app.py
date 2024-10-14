@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 import mysql.connector
 import os
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -15,12 +16,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# MySQL Configuration
 db_config = {
-    'host': 'localhost',
-    'user': 'root',  # Update with your MySQL username
-    'password': '##kc@##hc@98',  # Update with your MySQL password
-    'database': 'promotions_db'
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
 }
 
 # Simple question-answer pairs for the chatbot
