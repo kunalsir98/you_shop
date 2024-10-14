@@ -36,12 +36,12 @@
             margin: 15px;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
-            width: 320px; /* Adjusted width for better layout */
-            text-align: center; /* Centering content */
+            width: 320px;
+            text-align: center;
         }
 
         .promotion:hover {
-            transform: translateY(-5px); /* Lift effect on hover */
+            transform: translateY(-5px);
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
         }
 
@@ -92,8 +92,8 @@
             position: relative;
             bottom: 0;
             width: 100%;
-            margin-top: 30px; /* Added margin for separation */
-            border-top: 1px solid #333; /* Top border for separation */
+            margin-top: 30px;
+            border-top: 1px solid #333;
         }
 
         .contact-info p {
@@ -102,7 +102,7 @@
 
         .review-form {
             margin: 15px;
-            background-color: #2e2e2e; /* Match review form background */
+            background-color: #2e2e2e;
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -124,7 +124,7 @@
         .review-form textarea:focus {
             background-color: #484848;
             outline: none;
-            border: 1px solid #1abc9c; /* Highlight border on focus */
+            border: 1px solid #1abc9c;
         }
 
         .review-form button {
@@ -142,7 +142,56 @@
             background-color: #16a085;
             transform: scale(1.05);
         }
+
+        /* Chatbot styles */
+        .chat-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        #chat-question {
+            width: 70%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+        }
+
+        #chat-response {
+            margin-top: 15px;
+            color: #1abc9c;
+        }
+
+        #faq-buttons button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #1abc9c;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #faq-buttons button:hover {
+            background-color: #16a085;
+            transform: scale(1.05);
+        }
     </style>
+    <script>
+        async function askQuestion(question) {
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question })
+            });
+            const data = await response.json();
+            document.getElementById('chat-response').innerText = data.answer;
+        }
+    </script>
 </head>
 
 <body>
@@ -179,19 +228,40 @@
         <div class="add-button">
             <a href="{{ url_for('add_promotion') }}" class="button">Add a Promotion</a>
         </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <h2>Chat with Us</h2>
+            <div id="faq-buttons">
+                <button onclick="askQuestion('What is your name?')">What is your name?</button>
+                <button onclick="askQuestion('How can I contact support?')">How can I contact support?</button>
+                <button onclick="askQuestion('What are your operating hours?')">What are your operating hours?</button>
+                <button onclick="askQuestion('What services do you offer?')">What services do you offer?</button>
+                <button onclick="askQuestion('How can I submit a promotion?')">How can I submit a promotion?</button>
+                <button onclick="askQuestion('What types of promotions can I find?')">What types of promotions can I find?</button>
+                <button onclick="askQuestion('Can I leave a review for a promotion?')">Can I leave a review for a promotion?</button>
+                <button onclick="askQuestion('How do I update my profile?')">How do I update my profile?</button>
+                <button onclick="askQuestion('Is there a mobile app available?')">Is there a mobile app available?</button>
+                <button onclick="askQuestion('How do I reset my password?')">How do I reset my password?</button>
+                <button onclick="askQuestion('Can I delete my account?')">Can I delete my account?</button>
+                <button onclick="askQuestion('What payment methods are accepted?')">What payment methods are accepted?</button>
+                <button onclick="askQuestion('Are there any membership fees?')">Are there any membership fees?</button>
+                <button onclick="askQuestion('How do I unsubscribe from emails?')">How do I unsubscribe from emails?</button>
+                <button onclick="askQuestion('Can I change my language preference?')">Can I change my language preference?</button>
+                <button onclick="askQuestion('What should I do if I forgot my password?')">What should I do if I forgot my password?</button>
+            </div>
+            <input type="text" id="chat-question" placeholder="Ask a question..." />
+            <button onclick="askQuestion(document.getElementById('chat-question').value)">Ask</button>
+            <div id="chat-response"></div>
+        </div>
     </div>
 
     <footer>
         <div class="contact-info">
-            <p>Contact Information</p>
-            <p>Email: your-email@example.com | Phone: (123) 456-7890</p>
-            <p>Follow us on social media for the latest updates.</p>
+            <p>Contact us: info@findyourshop.com</p>
+            <p>Follow us on social media: Facebook | Twitter | Instagram</p>
         </div>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
